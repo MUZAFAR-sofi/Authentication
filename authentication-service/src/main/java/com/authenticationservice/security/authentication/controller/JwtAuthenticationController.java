@@ -1,6 +1,7 @@
 package com.authenticationservice.security.authentication.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.authenticationservice.domain.JwtRequestSim;
 import com.authenticationservice.domain.JwtResponse;
@@ -23,10 +25,22 @@ public class JwtAuthenticationController {
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
+	
+	@Autowired
+	private RestTemplate mRestTemplate;
+	
+	@Value("${portaone.url}")
+	private String portaone_url;
+	
+	@Value("${portaone.endPoint.simService.getSimDetails}")
+	private String simRequestEndPoint;
 
 
 	private void authenticate(String isdn) throws Exception {
 
+		String pParams="{}";
+		ResponseEntity<String> response
+		  = mRestTemplate.postForEntity(portaone_url + simRequestEndPoint,pParams, String.class);
 		
 
 	}
